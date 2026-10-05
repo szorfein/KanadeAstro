@@ -10,7 +10,7 @@ const { compact = false, title, subtitle } = Astro.props;
     <span class="hero-eyebrow">{compact ? "A LITTLE CORNER OF MY WORLD" : "CODE · LIFE · LITTLE THINGS"}</span>
     <h1>{title || welcomeConfig.title}<span class="hero-sparkle" aria-hidden="true">✧</span></h1>
     <p>{subtitle || welcomeConfig.subTitle}</p>
-    {!compact && <a href="#main-content" class="hero-explore">慢慢来，生活会有答案 <span class="icon-[lucide--arrow-down]" aria-hidden="true"></span></a>}
+    {!compact && <a href="#main-content" class="hero-explore">Explore this blog <span class="icon-[lucide--arrow-down]" aria-hidden="true"></span></a>}
   </div>
   <span class="hero-side-note" aria-hidden="true">EVERY DAY IS A NEW PAGE</span>
   <Waves class="hero-waves" />
@@ -18,7 +18,7 @@ const { compact = false, title, subtitle } = Astro.props;
 <style>
 .welcome-section { position: relative; height: 450px; background-size: cover; background-position: center 43%; display: flex; align-items: center; justify-content: center; text-align: center; color: white; overflow: hidden; }
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(100deg, #29375c40, #14213b2e 50%, #20223960); }
-.hero-content { position: relative; z-index: 2; padding: 25px 20px 55px; text-shadow: 0 2px 18px #1f2c6150; }
+.hero-content { position: relative; z-index: 2; padding: 25px 20px 55px; text-shadow: 0 2px 18px #1f2c6150; } /* background-color: #22223280; border-radius: 18px; } */
 .hero-eyebrow { display: block; font-family: "Oxanium-Medium", sans-serif; font-size: 11px; letter-spacing: .28em; opacity: .92; margin-bottom: 19px; }
 .hero-content h1 { margin: 0 0 10px; font-size: clamp(30px, 3.5vw, 46px); letter-spacing: .06em; font-weight: 600; line-height: 1.5; }
 .hero-sparkle { display: inline-block; font-size: 33px; margin-left: 12px; vertical-align: top; color: #ffd1df; }
