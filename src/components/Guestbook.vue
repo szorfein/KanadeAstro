@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from "vue";
+import { personalInfo } from "../config";
 
 const paperColors = [
-  { value: "butter", label: "奶油黄", mood: "留一点阳光" },
-  { value: "rose", label: "樱花粉", mood: "送一份温柔" },
-  { value: "mint", label: "薄荷绿", mood: "收集小确幸" },
-  { value: "sky", label: "晴空蓝", mood: "写一个愿望" },
-  { value: "lilac", label: "浅芋紫", mood: "藏一点浪漫" },
+  { value: "butter", label: "Creamy yellow", mood: "Leave some sunlight" },
+  { value: "rose", label: "Pink cherry", mood: "Sending a touch of tenderness" },
+  { value: "mint", label: "Mint green", mood: "Collect small joys" },
+  { value: "sky", label: "Clear sky blue", mood: "Write down a wish" },
+  { value: "lilac", label: "Murasaki potato", mood: "Hide a touch of romance" },
 ] as const;
 type PaperColor = typeof paperColors[number]["value"];
 type Message = { id: string; name: string; content: string; date: string; color: PaperColor };
@@ -44,25 +45,25 @@ onMounted(() => {
       if (!message || seen.has(message.id)) return false;
       seen.add(message.id); return true;
     }).slice(0, 100).sort((a, b) => Date.parse(b.date) - Date.parse(a.date)) : [];
-  } catch { error.value = "浏览器存储暂不可用。你仍可以编辑文字，请复制留存。"; }
+  } catch { error.value = "Browser storage is temporarily unavailable. You can still edit the text; please copy and save it."; }
   ready.value = true;
 });
 function save(next: Message[]) {
   try { localStorage.setItem(storageKey, JSON.stringify(next)); messages.value = next; return true; }
-  catch { error.value = "留言未保存：浏览器存储已满或已被关闭，请复制文字留存后重试。"; return false; }
+  catch { error.value = "Message not saved: Browser storage is full or closed. Please copy the text and save it before trying again."; return false; }
 }
 async function submit() {
   error.value = ""; feedback.value = "";
   const author = name.value.trim(); const text = content.value.trim();
-  if (!author || !text) { error.value = "请填写昵称和想说的话。"; return; }
-  if (author.length > 24 || text.length > 500) { error.value = "昵称最多 24 字，留言最多 500 字。"; return; }
-  if (messages.value.length >= 100) { error.value = "本地已保存 100 条留言，删除一些旧留言后再试试。"; return; }
+  if (!author || !text) { error.value = "Please fill in your nickname and your message content."; return; }
+  if (author.length > 24 || text.length > 500) { error.value = "Nickname are the most common 24 The character had the most comments 500 Character"; return; }
+  if (messages.value.length >= 100) { error.value = "Local preserved 100 Delete some old comments and try again."; return; }
   const id = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   if (save([{ id, name: author, content: text, date: new Date().toISOString(), color: selectedColor.value }, ...messages.value])) {
     freshId.value = id;
     newestFirst.value = true;
     content.value = "";
-    feedback.value = "便签已贴上墙！已保存在当前浏览器，刷新后仍可查看。";
+    feedback.value = "The note has been posted on the wall! It has been saved in your current browser and can still be viewed after refreshing.";
     await nextTick();
     document.getElementById(`note-${id}`)?.scrollIntoView({
       block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
@@ -71,7 +72,7 @@ async function submit() {
 }
 function remove(id: string) {
   error.value = "";
-  if (save(messages.value.filter(message => message.id !== id))) feedback.value = "这张便签已从留言墙取下。";
+  if (save(messages.value.filter(message => message.id !== id))) feedback.value = "This note has been taken down from the message wall.";
 }
 function emoji(value: string) {
   if (content.value.length + value.length <= 500) content.value += value;
@@ -87,16 +88,16 @@ function tilt(id: string) { return `${[-1.8, 1.2, -0.8, 1.7, -1.1][hash(id) % 5]
 <template>
   <div class="guestbook" :data-ready="ready">
     <header class="wall-heading">
-      <div><span class="eyebrow">LITTLE NOTES, WARM CONNECTIONS</span><h2>把心情，贴在这里<span aria-hidden="true">✿</span></h2><p>选一张喜欢的颜色，留下一点此刻的心情。每一句话，都值得被好好收藏。</p></div>
-      <div class="wall-stamp" aria-hidden="true"><span class="icon-[lucide--mail-open]"></span><span>见字如面</span><small>WITH LOVE</small></div>
+      <div><span class="eyebrow">LITTLE NOTES, WARM CONNECTIONS</span><h2>Put your mood here<span aria-hidden="true">✿</span></h2><p>Choose a color you like and capture a bit of your mood at the moment. Every sentence deserves to be carefully kept.</p></div>
+      <div class="wall-stamp" aria-hidden="true"><span class="icon-[lucide--mail-open]"></span><span>Write</span><small>WITH LOVE</small></div>
     </header>
 
     <div class="wall-layout">
       <section class="card composer" aria-labelledby="compose-title">
-        <div class="composer-heading"><h3 id="compose-title"><span class="icon-[lucide--pencil-line]" aria-hidden="true"></span>写一张便签</h3><span class="compose-step">MAKE A LITTLE MARK</span></div>
+        <div class="composer-heading"><h3 id="compose-title"><span class="icon-[lucide--pencil-line]" aria-hidden="true"></span>Write a sticky note</h3><span class="compose-step">MAKE A LITTLE MARK</span></div>
         <form @submit.prevent="submit">
           <fieldset class="color-picker">
-            <legend>今天的心情是什么颜色？</legend>
+            <legend>What color is my mood today?</legend>
             <div class="color-options">
               <label v-for="paper in paperColors" :key="paper.value" class="color-option">
                 <input v-model="selectedColor" type="radio" name="paper-color" :value="paper.value" :aria-label="paper.label" />
@@ -107,53 +108,54 @@ function tilt(id: string) { return `${[-1.8, 1.2, -0.8, 1.7, -1.1][hash(id) % 5]
           </fieldset>
           <div class="writing-paper paper" :data-color="selectedColor">
             <span class="paper-tape" aria-hidden="true"></span>
-            <label class="field-label" for="guest-name">怎么称呼你 <span>*</span></label>
-            <input id="guest-name" v-model="name" class="paper-input" type="text" autocomplete="nickname" placeholder="留下你的昵称" maxlength="24" required />
-            <label class="field-label" for="guest-content">想说的话 <span>*</span></label>
-            <textarea id="guest-content" ref="textarea" v-model="content" class="paper-input" rows="5" placeholder="路过这里，想对你说…" maxlength="500" required></textarea>
+            <label class="field-label" for="guest-name">How would you want to be named? <span>*</span></label>
+            <input id="guest-name" v-model="name" class="paper-input" type="text" autocomplete="nickname" placeholder="Leave your nickname" maxlength="24" required />
+            <label class="field-label" for="guest-content">What I want to say <span>*</span></label>
+            <textarea id="guest-content" ref="textarea" v-model="content" class="paper-input" rows="5" placeholder="Passing by here, I want to say something to you..." maxlength="500" required></textarea>
             <div class="writing-bottom"><span>{{ selectedPaper.mood }} <span aria-hidden="true">♡</span></span><span>{{ content.length }} / 500</span></div>
           </div>
-          <div class="message-toolbar"><div class="emoji-buttons"><button v-for="item in ['🌸', '✨', '☕', '🍀', '💖']" :key="item" type="button" @click="emoji(item)" :aria-label="`插入表情 ${item}`">{{ item }}</button></div><span>加一点心情</span></div>
-          <button type="submit" class="btn stick-button" :disabled="!ready"><span class="icon-[lucide--pin]" aria-hidden="true"></span>贴到留言墙<span class="icon-[lucide--arrow-up-right]" aria-hidden="true"></span></button>
+          <div class="message-toolbar"><div class="emoji-buttons"><button v-for="item in ['🌸', '✨', '☕', '🍀', '💖']" :key="item" type="button" @click="emoji(item)" :aria-label="`Insert Emoji ${item}`">{{ item }}</button></div><span>Add a bit of mood</span></div>
+          <button type="submit" class="btn stick-button" :disabled="!ready"><span class="icon-[lucide--pin]" aria-hidden="true"></span>Post it on the message wall<span class="icon-[lucide--arrow-up-right]" aria-hidden="true"></span></button>
           <p class="form-feedback" role="status">{{ feedback }}</p>
           <p v-if="error" class="form-error" role="alert">{{ error }}</p>
         </form>
-        <div class="local-notice"><span class="icon-[lucide--lock-keyhole]" aria-hidden="true"></span><p>这是你的本地留言墙。便签仅保存在当前浏览器，仅你可见，不会发送给站长或跨设备同步。</p></div>
+        <div class="local-notice"><span class="icon-[lucide--lock-keyhole]" aria-hidden="true"></span><p>This is your local message wall. Notes are only saved in the current browser and visible only to you; they are not sent to webmasters or synced across devices.</p></div>
       </section>
 
       <section class="note-board" aria-labelledby="board-title">
-        <div class="board-toolbar"><div><span class="icon-[lucide--sticky-note]" aria-hidden="true"></span><h3 id="board-title">心意收集处</h3><span class="note-count">{{ messages.length }} 张便签</span></div><button type="button" class="sort-button" @click="newestFirst = !newestFirst" :aria-label="newestFirst ? '切换为最早优先' : '切换为最新优先'"><span class="icon-[lucide--arrow-down-up]" aria-hidden="true"></span>{{ newestFirst ? "最新贴上" : "最早贴上" }}</button></div>
+        <div class="board-toolbar"><div><span class="icon-[lucide--sticky-note]" aria-hidden="true"></span><h3 id="board-title">A place for collecting heartfelt thoughts</h3><span class="note-count">{{ messages.length }} messages</span></div><button type="button" class="sort-button" @click="newestFirst = !newestFirst" :aria-label="newestFirst ? 'Switch to earliest priority' : 'Switch to the latest priority'"><span class="icon-[lucide--arrow-down-up]" aria-hidden="true"></span>{{ newestFirst ? "Latest post" : "The earlist post" }}</button></div>
         <div class="wall-canvas" :aria-busy="!ready">
           <div class="note-grid">
-            <article v-for="message in orderedMessages" :key="message.id" :id="`note-${message.id}`" class="message sticky-note paper" :class="{ 'just-posted': freshId === message.id }" :data-color="message.color" :style="{ '--tilt': tilt(message.id) }" :aria-label="`${message.name} 的便签`">
+            <article v-for="message in orderedMessages" :key="message.id" :id="`note-${message.id}`" class="message sticky-note paper" :class="{ 'just-posted': freshId === message.id }" :data-color="message.color" :style="{ '--tilt': tilt(message.id) }" :aria-label="`${message.name} note`">
               <span class="paper-tape" aria-hidden="true"></span>
-              <button type="button" class="remove-note" @click="remove(message.id)" :aria-label="`删除 ${message.name} 的留言`" title="取下这张便签"><span class="icon-[lucide--x]" aria-hidden="true"></span></button>
+              <button type="button" class="remove-note" @click="remove(message.id)" :aria-label="`Delete ${message.name} comment`" title="Take down this note"><span class="icon-[lucide--x]" aria-hidden="true"></span></button>
               <span class="note-hello" aria-hidden="true">Dear, today <span>✧</span></span>
               <div class="message-main"><p>{{ message.content }}</p></div>
               <footer class="note-footer"><div class="note-author"><span class="note-avatar" aria-hidden="true">{{ Array.from(message.name)[0] }}</span><strong>{{ message.name }}</strong></div><time :datetime="message.date">{{ dateLabel(message.date) }}</time></footer>
               <span class="paper-fold" aria-hidden="true"></span>
             </article>
 
-            <article class="sticky-note paper welcome-note" data-color="rose" style="--tilt: -1.2deg" aria-label="小站寄语">
+            <!-- If you want to write a message -->
+            <article class="sticky-note paper welcome-note" data-color="rose" style="--tilt: -1.2deg" aria-label="AA message from">
               <span class="paper-tape" aria-hidden="true"></span>
-              <span class="note-hello">小站寄语 <span aria-hidden="true">♡</span></span>
-              <div class="message-main"><h4>很高兴，在这里遇见你。</h4><p>一句问候，一个愿望，<br />或是今天遇见的小确幸。<br /><br />把想说的话留在这里，<br />让平凡的一天多一点颜色。</p></div>
-              <footer class="note-footer"><div class="note-author"><img src="/images/sudoria.jpg" alt="" width="24" height="24" /><strong>苏多莉亚</strong></div><span>欢迎路过 <span aria-hidden="true">✿</span></span></footer>
+              <span class="note-hello">A message from <span aria-hidden="true">♡</span></span>
+              <div class="message-main"><h4>It's great to meet you here.</h4><p>A greeting, a wish,<br />Or the small joys we encountered today.<br /><br />Leave what you want to say here,<br />Add a little color to an ordinary day.</p></div>
+              <footer class="note-footer"><div class="note-author"><img src="/images/sudoria.jpg" alt="" width="24" height="24" /><strong>{{personalInfo.name}}</strong></div><span>Welcome to pass by <span aria-hidden="true">✿</span></span></footer>
               <span class="paper-fold" aria-hidden="true"></span>
             </article>
-            <article v-if="!messages.length" class="sticky-note paper inspiration-note" data-color="mint" style="--tilt: 1.6deg" aria-label="写作灵感">
+            <article v-if="!messages.length" class="sticky-note paper inspiration-note" data-color="mint" style="--tilt: 1.6deg" aria-label="Writing inspiration">
               <span class="paper-tape" aria-hidden="true"></span>
-              <span class="note-hello">一点灵感 <span aria-hidden="true">✧</span></span>
-              <span class="inspiration-flower" aria-hidden="true">✿</span><h4>不知道写点什么？</h4><p>今天有什么让你笑了一下？<br />最近在听哪一首歌？<br />想对未来的自己说什么？</p><span class="inspiration-sign">小事也值得被记录。</span>
+              <span class="note-hello">A bit of inspiration <span aria-hidden="true">✧</span></span>
+              <span class="inspiration-flower" aria-hidden="true">✿</span><h4>Don't know what to write?</h4><p>What made you laugh today?<br />Which song have you been listening to lately?<br />What do you want to say to your future self?</p><span class="inspiration-sign">Even the smallest things deserve to be recorded.</span>
               <span class="paper-fold" aria-hidden="true"></span>
             </article>
-            <button v-if="!messages.length" type="button" class="empty-note" @click="startWriting"><span class="icon-[lucide--plus]" aria-hidden="true"></span><strong>第一张便签，留给你</strong><span>写下此刻，贴上一点温柔</span><span class="empty-arrow" aria-hidden="true">↖</span></button>
+            <button v-if="!messages.length" type="button" class="empty-note" @click="startWriting"><span class="icon-[lucide--plus]" aria-hidden="true"></span><strong>The first sticky note, left for you</strong><span>Write down this moment and paste it</span><span class="empty-arrow" aria-hidden="true">↖</span></button>
           </div>
-          <div class="board-bottom"><span></span><p>{{ messages.length ? "每一张便签，都是认真生活的小小证据。" : "墙面还很空，但好故事总是从第一句话开始。" }}</p><span></span></div>
+          <div class="board-bottom"><span></span><p>{{ messages.length ? "Every note is a small piece of evidence of living earnestly" : "The walls are still empty, but good stories always begin with the very first sentence." }}</p><span></span></div>
         </div>
       </section>
     </div>
-    <p class="wall-footnote"><span class="icon-[lucide--heart]" aria-hidden="true"></span>风会吹走烦恼，文字会留下温度。</p>
+    <p class="wall-footnote"><span class="icon-[lucide--heart]" aria-hidden="true"></span>The wind blows away worries, and words leave warmth.</p>
   </div>
 </template>
 

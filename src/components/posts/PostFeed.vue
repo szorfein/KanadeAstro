@@ -65,7 +65,7 @@ onUnmounted(() => window.removeEventListener("popstate", readUrl));
           <div class="post-bottom"><div class="post-tags"><a v-for="item in post.tags.slice(0, 2)" :key="item" :href="`/posts/?tag=${encodeURIComponent(item)}`"># {{ item }}</a></div><a class="read-post" :href="`/posts/${post.id}/`" :aria-label="`Read the full article ${post.title}`">{{ post.minutes }} minutes<span class="icon-[lucide--arrow-up-right]"></span></a></div>
         </div>
       </article>
-      <div v-if="!displayed.length" class="empty-state card"><span class="icon-[lucide--notebook]"></span><h3>On this page, new stories await</h3><p>没有匹配的文章，换个关键词试试吧。</p><button class="btn secondary" @click="reset">查看全部文章</button></div>
+      <div v-if="!displayed.length" class="empty-state card"><span class="icon-[lucide--notebook]"></span><h3>On this page, new stories await</h3><p>If you don't find a matching article, try using a different keyword.</p><button class="btn secondary" @click="reset">View all posts</button></div>
     </div>
     <nav v-if="totalPages > 1" class="pagination" aria-label="Pagination">
       <button @click="turnPage(page - 1)" :disabled="page === 1" aria-label="Previous page"><span class="icon-[lucide--chevron-left]"></span></button>

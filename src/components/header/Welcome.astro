@@ -1,10 +1,10 @@
 ---
-import { welcomeConfig } from "../../config";
+import { welcomeConfig, personalInfo } from "../../config";
 import Waves from "./Waves.vue";
 interface Props { compact?: boolean; title?: string; subtitle?: string }
 const { compact = false, title, subtitle } = Astro.props;
 ---
-<section class:list={["welcome-section", { compact }]} style={`background-image: url('${welcomeConfig.bgImage}')`} aria-label="欢迎来到 Kanade">
+<section class:list={["welcome-section", { compact }]} style={`background-image: url('${welcomeConfig.bgImage}')`} aria-label=`Welcome ${personalInfo.name}`>
   <div class="hero-shade"></div>
   <div class="hero-content">
     <span class="hero-eyebrow">{compact ? "A LITTLE CORNER OF MY WORLD" : "CODE · LIFE · LITTLE THINGS"}</span>
