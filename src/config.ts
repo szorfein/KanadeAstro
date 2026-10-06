@@ -1,13 +1,13 @@
 export const siteInfo = {
-  title: "Szorfein",
-  description: "苏多莉亚的小小记录站。分享前端开发、折腾日常，以及生活里闪闪发光的片刻。",
-  keywords: ["Astro", "Kanade", "博客", "Sudoria", "前端开发"],
+  title: "Kanade",
+  description: "A strong Astro template to start to share frontend development, tinkering daily life and shining moments life.",
+  keywords: ["Astro", "Kanade", "Blog", "Sudoria", "Frontend development"],
   // 发布到域名时设置 SITE_URL，例如 https://your-blog.example。
   url: import.meta.env.SITE_URL || "http://localhost:4321",
 };
 
 export const headerConfig = {
-  title: "Drowr",
+  title: "Kanade",
   navLinks: [
     { name: "Home", icon: "icon-[bx--bxs-home-circle]", url: "/" },
     { name: "Posts", icon: "icon-[material-symbols--article]", url: "/posts/" },
@@ -18,18 +18,18 @@ export const headerConfig = {
 };
 
 export const welcomeConfig = {
-  title: "Welcome, I'm Szorfein",
-  subTitle: "Code is like humor. When you have to explain it, it's bad.",
+  title: "Welcome, I'm Kanade",
+  subTitle: "Write your passion into code, collect your daily life as poetry.",
   bgImage: "/images/hero.webp",
 };
 
 export const personalInfo = {
-  name: "Szorfein",
-  englishName: "Szorfein",
+  name: "Sudoria",
+  englishName: "Sudoria",
   avatar: "/images/sudoria.jpg",
   role: "Developer Full stack",
-  bio: "Code is like humor. When you have to explain it, it's bad.",
-  github: "https://github.com/szorfein",
+  bio: "Between code and life, seek a little romance.",
+  github: "https://github.com/sudoriaa",
   socialLinks: [
     { name: "GitHub", icon: "icon-[jam--github]", url: "https://github.com/szorfein" },
     { name: "RSS", icon: "icon-[lucide--rss]", url: "/rss.xml" },
