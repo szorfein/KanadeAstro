@@ -26,7 +26,8 @@ onUnmounted(() => {
 <template>
   <header class="nav-header" :class="{ scrolled: !isAtTop, 'menu-open': menuOpen }">
     <div class="nav-inner shell">
-      <a href="/" class="brand" aria-label="Kanade 首页"><span class="brand-flower">✿</span>{{ headerConfig.title }}<span class="brand-dot">.</span></a>
+      <a href="/" class="brand" :aria-label="`
+      ${headerConfig.title}'s site`"><span class="brand-flower">✿</span>{{ headerConfig.title }}<span class="brand-dot">.</span></a>
       <nav aria-label="主导航" :class="{ expanded: menuOpen }" id="main-navigation">
         <a v-for="item in headerConfig.navLinks" :key="item.url" :href="item.url" :aria-current="active(item.url) ? 'page' : undefined" :class="{ active: active(item.url) }">
           <span :class="item.icon" aria-hidden="true"></span><span>{{ item.name }}</span>

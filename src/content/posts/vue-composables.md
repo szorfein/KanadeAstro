@@ -2,8 +2,8 @@
 title: "写一个刚刚好的 Vue Composable"
 description: "从重复逻辑里提取边界，用一个小小的组合式函数，让组件重新专注于界面。"
 date: 2026-09-08
-category: "前端开发"
-tags: ["Vue", "TypeScript", "组件设计"]
+category: "Frontend Dev"
+tags: ["Vue", "TypeScript", "Design"]
 cover: "vue"
 ---
 ## 从具体需求开始

@@ -11,7 +11,7 @@ const page = ref(1);
 const ready = ref(false);
 const feed = ref<HTMLElement>();
 const pageSize = 5;
-const categoryNames = ["前端开发", "开发笔记", "生活随笔"];
+const categoryNames = ["Frontend Dev", "Dev Note", "No Code"]; // TODO: need to regroup this in a config?
 const filtered = computed(() => props.posts.filter(p =>
   (!category.value || p.category === category.value) &&
   (!tag.value || p.tags.includes(tag.value)) &&
@@ -48,32 +48,32 @@ onUnmounted(() => window.removeEventListener("popstate", readUrl));
 </script>
 <template>
   <section ref="feed" class="post-feed" :data-ready="ready">
-    <div v-if="archive" class="card archive-intro"><span class="eyebrow">THE ARCHIVE</span><h2>文字里的时光</h2><p>共 {{ posts.length }} 篇记录，每一篇都是成长的脚印。</p><label class="archive-search"><span class="icon-[lucide--search]"></span><input v-model="query" @input="search" type="search" aria-label="筛选文章" placeholder="在文章里找一找…" /></label></div>
-    <div v-else class="feed-title"><h2><span class="icon-[lucide--notebook-pen]"></span>最新文章<small>LATEST POSTS</small></h2><span class="feed-count">{{ posts.length }} 篇记录</span></div>
-    <div class="feed-tabs card" aria-label="文章分类">
-      <button :class="{ selected: !category && !tag && !month }" :aria-pressed="!category && !tag && !month" @click="reset">全部文章 <span>{{ posts.length }}</span></button>
+    <div v-if="archive" class="card archive-intro"><span class="eyebrow">THE ARCHIVE</span><h2>Time in words</h2><p>A total of {{ posts.length }} records, each one a footprint of growth.</p><label class="archive-search"><span class="icon-[lucide--search]"></span><input v-model="query" @input="search" type="search" aria-label="Search posts" placeholder="Find in the article..." /></label></div>
+    <div v-else class="feed-title"><h2><span class="icon-[lucide--notebook-pen]"></span>Latest posts</h2><span class="feed-count">{{ posts.length }} posts</span></div>
+    <div class="feed-tabs card" aria-label="Posts Categories">
+      <button :class="{ selected: !category && !tag && !month }" :aria-pressed="!category && !tag && !month" @click="reset">All posts <span>{{ posts.length }}</span></button>
       <button v-for="name in categoryNames" :key="name" :class="{ selected: category === name }" :aria-pressed="category === name" @click="setCategory(name)">{{ name }}</button>
     </div>
-    <div v-if="tag || month || (category && !categoryNames.includes(category))" class="filter-summary"><span>正在浏览：{{ tag || month || category }}</span><button @click="reset">清除筛选 ×</button></div>
+    <div v-if="tag || month || (category && !categoryNames.includes(category))" class="filter-summary"><span>Currently browsing: {{ tag || month || category }}</span><button @click="reset">Clear ×</button></div>
     <div class="post-list" aria-live="polite">
       <article v-for="post in displayed" :key="post.id" class="post-card card" :data-category="post.category">
-        <a :href="`/posts/${post.id}/`" class="cover-link" :aria-label="`阅读：${post.title}`" tabindex="-1"><PostCover :kind="post.cover" :featured="post.featured" /></a>
+        <a :href="`/posts/${post.id}/`" class="cover-link" :aria-label="`Read ${post.title}`" tabindex="-1"><PostCover :kind="post.cover" :featured="post.featured" /></a>
         <div class="post-info">
-          <div class="post-kicker"><span v-if="post.featured" class="pin"><span class="icon-[lucide--pin]"></span>置顶</span><a :href="`/posts/?category=${encodeURIComponent(post.category)}`">{{ post.category }}</a><span class="meta-divider">/</span><time :datetime="post.date">{{ post.date.replaceAll("-", ".") }}</time></div>
+          <div class="post-kicker"><span v-if="post.featured" class="pin"><span class="icon-[lucide--pin]"></span>Pinned</span><a :href="`/posts/?category=${encodeURIComponent(post.category)}`">{{ post.category }}</a><span class="meta-divider">/</span><time :datetime="post.date">{{ post.date.replaceAll("-", ".") }}</time></div>
           <h3><a :href="`/posts/${post.id}/`">{{ post.title }}</a></h3>
           <p class="post-description">{{ post.description }}</p>
-          <div class="post-bottom"><div class="post-tags"><a v-for="item in post.tags.slice(0, 2)" :key="item" :href="`/posts/?tag=${encodeURIComponent(item)}`"># {{ item }}</a></div><a class="read-post" :href="`/posts/${post.id}/`" :aria-label="`阅读全文：${post.title}`">{{ post.minutes }} 分钟<span class="icon-[lucide--arrow-up-right]"></span></a></div>
+          <div class="post-bottom"><div class="post-tags"><a v-for="item in post.tags.slice(0, 2)" :key="item" :href="`/posts/?tag=${encodeURIComponent(item)}`"># {{ item }}</a></div><a class="read-post" :href="`/posts/${post.id}/`" :aria-label="`Read the full article ${post.title}`">{{ post.minutes }} minutes<span class="icon-[lucide--arrow-up-right]"></span></a></div>
         </div>
       </article>
-      <div v-if="!displayed.length" class="empty-state card"><span class="icon-[lucide--notebook]"></span><h3>这一页，还等着新的故事</h3><p>没有匹配的文章，换个关键词试试吧。</p><button class="btn secondary" @click="reset">查看全部文章</button></div>
+      <div v-if="!displayed.length" class="empty-state card"><span class="icon-[lucide--notebook]"></span><h3>On this page, new stories await</h3><p>没有匹配的文章，换个关键词试试吧。</p><button class="btn secondary" @click="reset">查看全部文章</button></div>
     </div>
-    <nav v-if="totalPages > 1" class="pagination" aria-label="文章分页">
-      <button @click="turnPage(page - 1)" :disabled="page === 1" aria-label="上一页"><span class="icon-[lucide--chevron-left]"></span></button>
-      <button v-for="index in totalPages" :key="index" @click="turnPage(index)" :class="{ current: page === index }" :aria-current="page === index ? 'page' : undefined" :aria-label="`第 ${index} 页`">{{ index }}</button>
-      <button @click="turnPage(page + 1)" :disabled="page === totalPages" aria-label="下一页"><span class="icon-[lucide--chevron-right]"></span></button>
-      <span>共 {{ filtered.length }} 篇</span>
+    <nav v-if="totalPages > 1" class="pagination" aria-label="Pagination">
+      <button @click="turnPage(page - 1)" :disabled="page === 1" aria-label="Previous page"><span class="icon-[lucide--chevron-left]"></span></button>
+      <button v-for="index in totalPages" :key="index" @click="turnPage(index)" :class="{ current: page === index }" :aria-current="page === index ? 'page' : undefined" :aria-label="`Page ${index}`">{{ index }}</button>
+      <button @click="turnPage(page + 1)" :disabled="page === totalPages" aria-label="Next page"><span class="icon-[lucide--chevron-right]"></span></button>
+      <span>A total of {{ filtered.length }} posts</span>
     </nav>
-    <div class="feed-end"><span></span>把每一份热爱，都好好收藏。<span></span></div>
+    <div class="feed-end"><span></span>Keep every passion well<span></span></div>
   </section>
 </template>
 <style scoped>
@@ -101,7 +101,7 @@ onUnmounted(() => window.removeEventListener("popstate", readUrl));
 .meta-divider { color: var(--line); }
 .post-info h3 { font-size: 17px; line-height: 1.65; font-weight: 600; margin: 8px 0 7px; }
 .post-info h3 a:hover { color: var(--accent); }
-.post-description { color: var(--muted); font-size: 12px; line-height: 1.85; margin: 0 0 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.post-description { color: var(--muted); font-size: 12px; line-height: 1.85; margin: 0 0 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-clamp: 2; }
 .post-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; gap: 8px; font-size: 10px; }
 .post-tags { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); }
 .post-tags a:hover { color: var(--accent); }

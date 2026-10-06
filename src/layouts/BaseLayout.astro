@@ -1,5 +1,5 @@
 ---
-import { siteInfo } from "../config";
+import { siteInfo, headerConfig } from "../config";
 import "../styles/global.css";
 import Navigation from "../components/header/Navigation.vue";
 import Welcome from "../components/header/Welcome.astro";
@@ -48,9 +48,9 @@ const canonical = new URL(Astro.url.pathname, siteInfo.url);
       <main id="main-content" tabindex="-1"><slot /></main>
     </MainContainer>
     <footer class="site-footer">
-      <a href="/" class="footer-mark"><span class="accent">✿</span> Kanade.</a>
-      <p>在这里，记录每一次心动与成长。</p>
-      <p>© {new Date().getFullYear()} Sudoria · Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> &amp; <span class="accent">♥</span> · <a href="/rss.xml">RSS 订阅</a> · <a href="/about/">关于本站</a></p>
+      <a href="/" class="footer-mark"><span class="accent">✿</span>{ headerConfig.title }.</a>
+      <p>Here, every heartbeat and growth is recorded.</p>
+      <p>© {new Date().getFullYear()} Sudoria · Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> &amp; <span class="accent">♥</span> · <a href="/rss.xml">RSS feed</a> · <a href="/about/">About</a></p>
     </footer>
     <button class="back-top" id="back-top" aria-label="回到顶部" hidden><span class="icon-[lucide--arrow-up]"></span></button>
     <script>

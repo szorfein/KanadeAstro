@@ -2,8 +2,8 @@
 title: "周末散步计划：把日子调成慢速"
 description: "关掉编辑器，出门走走。风经过树梢的时候，才发现今天也有很多值得收藏的小事。"
 date: 2026-09-05
-category: "生活随笔"
-tags: ["日常", "生活", "碎碎念"]
+category: "No Code"
+tags: ["Life"]
 cover: "life"
 ---
 > 这是一篇用于展示生活分类排版的示例随笔。

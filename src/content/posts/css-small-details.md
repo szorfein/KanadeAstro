@@ -2,8 +2,8 @@
 title: "让界面温柔一点：值得收藏的 CSS 小细节"
 description: "圆角、留白、阴影与恰到好处的动效。那些看起来微不足道的细节，决定了一个页面的呼吸感。"
 date: 2026-09-12
-category: "前端开发"
-tags: ["CSS", "设计", "用户体验"]
+category: "Frontend Dev"
+tags: ["CSS", "Design"]
 cover: "css"
 ---
 ## 从留白开始

@@ -2,8 +2,8 @@
 title: "TypeScript 笔记：把类型写在数据的边界"
 description: "比起为所有变量添加注解，更重要的是让外部数据经过验证，让组件拿到可信的输入。"
 date: 2026-09-02
-category: "前端开发"
-tags: ["TypeScript", "开发笔记"]
+category: "Frontend Dev"
+tags: ["TypeScript"]
 cover: "typescript"
 ---
 ## 类型检查发生在运行之前
