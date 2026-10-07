@@ -8,7 +8,7 @@ const posts = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    category: z.enum(["前端开发", "开发笔记", "生活随笔"]),
+    category: z.enum(["Frontend Dev", "Dev Note", "No Code"]),
     tags: z.array(z.string()),
     cover: z.enum(["astro", "vue", "css", "notes", "life", "typescript", "git", "design"]),
     featured: z.boolean().default(false),

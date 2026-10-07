@@ -5,7 +5,7 @@ import { getPosts, summarize } from "../lib/posts";
 const posts = (await getPosts()).map(summarize);
 ---
 <BlogLayout home>
-  <div class="hello-strip"><span class="icon-[lucide--sparkles]" aria-hidden="true"></span><p>你好呀，远道而来的朋友，今天也要开心哦！</p><span class="hello-pill">HAVE A NICE DAY</span></div>
+  <div class="hello-strip"><span class="icon-[lucide--sparkles]" aria-hidden="true"></span><p>Hello, make sure to be happy too!</p><span class="hello-pill">HAVE A NICE DAY</span></div>
   <PostFeed posts={posts} client:load />
 </BlogLayout>
 <style>

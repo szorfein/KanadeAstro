@@ -26,7 +26,8 @@ onUnmounted(() => {
 <template>
   <header class="nav-header" :class="{ scrolled: !isAtTop, 'menu-open': menuOpen }">
     <div class="nav-inner shell">
-      <a href="/" class="brand" aria-label="Kanade 首页"><span class="brand-flower">✿</span>{{ headerConfig.title }}<span class="brand-dot">.</span></a>
+      <a href="/" class="brand" :aria-label="`
+      ${headerConfig.title}'s site`"><span class="brand-flower">✿</span>{{ headerConfig.title }}<span class="brand-dot">.</span></a>
       <nav aria-label="主导航" :class="{ expanded: menuOpen }" id="main-navigation">
         <a v-for="item in headerConfig.navLinks" :key="item.url" :href="item.url" :aria-current="active(item.url) ? 'page' : undefined" :class="{ active: active(item.url) }">
           <span :class="item.icon" aria-hidden="true"></span><span>{{ item.name }}</span>
@@ -44,7 +45,7 @@ onUnmounted(() => {
 <style scoped>
 .nav-header { position: fixed; inset: 0 0 auto; height: 70px; z-index: 40; color: #fff; transition: background .25s, color .25s, box-shadow .25s; }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; width: 100%; }
-.brand { display: flex; align-items: center; gap: 8px; font: 600 27px "Oxanium-Medium", sans-serif; letter-spacing: -.8px; }
+.brand { display: flex; align-items: center; gap: 8px; font: 600 27px "Oxanium-Medium", sans-serif; }
 .brand-flower { font-size: 29px; font-family: sans-serif; font-weight: 400; }
 .brand-dot { color: #ffb4ca; margin-left: -7px; }
 nav { display: flex; gap: 15px; padding-left: 0; }

@@ -3,6 +3,7 @@ import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PersonalCard from "../../components/home/PersonalCard.vue";
 import PostCover from "../../components/posts/PostCover.vue";
+import { personalInfo } from "../../config";
 import { getPosts, summarize } from "../../lib/posts";
 export async function getStaticPaths() {
   return (await getPosts()).map(post => ({ params: { id: post.id }, props: { post } }));
@@ -15,32 +16,32 @@ const index = posts.findIndex(item => item.id === post.id);
 const newer = posts[index - 1];
 const older = posts[index + 1];
 ---
-<BaseLayout title={post.data.title} description={post.data.description} heroTitle="读一段文字，留一点时光" heroSubtitle="认真记录的每个瞬间，都有自己的光。" article>
+<BaseLayout title={post.data.title} description={post.data.description} heroTitle="Read a passage of text, leave a little time" heroSubtitle="Every moment carefully recorded has its own light." article>
   <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
   <div class="shell article-layout">
     <article class="card article-detail">
-      <a href="/posts/" class="text-link"><span class="icon-[lucide--arrow-left]" aria-hidden="true"></span>返回所有文章</a>
+      <a href="/posts/" class="text-link"><span class="icon-[lucide--arrow-left]" aria-hidden="true"></span>Return to all articles</a>
       <header class="article-header">
         <a class="chip" href={`/posts/?category=${encodeURIComponent(post.data.category)}`}>{post.data.category}</a>
         <h1>{post.data.title}</h1>
-        <div class="article-meta"><img src="/images/sudoria.jpg" alt="" width="25" height="25" /><span>苏多莉亚</span><span>·</span><time datetime={summary.date}>{summary.date}</time><span>·</span><span>约 {summary.minutes} 分钟</span></div>
+        <div class="article-meta"><img src="/images/sudoria.jpg" alt="" width="25" height="25" /><span>{personalInfo.name}</span><span>·</span><time datetime={summary.date}>{summary.date}</time><span>·</span><span>Agreement {summary.minutes} minutes</span></div>
         <p>{post.data.description}</p>
       </header>
       <div class="article-cover"><PostCover kind={post.data.cover} featured={post.data.featured} /></div>
-      <details class="mobile-toc"><summary>文章目录</summary><ol>{headings.filter(h => h.depth <= 3).map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></details>
+      <details class="mobile-toc"><summary>Table of contents</summary><ol>{headings.filter(h => h.depth <= 3).map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></details>
       <div class="prose" id="article-body"><Content /></div>
-      <div class="article-ending"><span>✿</span><p>感谢读到这里，愿这些文字对你有所帮助。</p></div>
-      <div class="article-tools"><div class="article-tags">{post.data.tags.map(tag => <a class="chip" href={`/posts/?tag=${encodeURIComponent(tag)}`}># {tag}</a>)}</div><button id="share-post" class="btn secondary"><span class="icon-[lucide--link]" aria-hidden="true"></span>复制文章链接</button></div>
+      <div class="article-ending"><span>✿</span><p>Thank you for reading this far. I hope these words have been helpful to you.</p></div>
+      <div class="article-tools"><div class="article-tags">{post.data.tags.map(tag => <a class="chip" href={`/posts/?tag=${encodeURIComponent(tag)}`}># {tag}</a>)}</div><button id="share-post" class="btn secondary"><span class="icon-[lucide--link]" aria-hidden="true"></span>Copy the article link</button></div>
       <p id="share-status" role="status" class="share-status"></p>
-      <div class="author-note"><img src="/images/sudoria.jpg" alt="苏多莉亚" width="44" height="44" /><div><strong>苏多莉亚 <span class="accent">/ Sudoria</span></strong><p>写一点代码，记录一点生活。欢迎来<a href="/messages/">留言板</a>聊聊。</p></div></div>
-      <nav class="adjacent-posts" aria-label="相邻文章">
-        {newer ? <a href={`/posts/${newer.id}/`}><span>← 上一篇</span><strong>{newer.title}</strong></a> : <div></div>}
-        {older && <a href={`/posts/${older.id}/`}><span>下一篇 →</span><strong>{older.title}</strong></a>}
+      <div class="author-note"><img src="/images/sudoria.jpg" :alt=`${personalInfo.name}` width="44" height="44" /><div><strong><span>{personalInfo.name}</span></strong><p>Write a bit of code, record a bit of life. Feel free to write something on the <a href="/messages/">messages board</a></p></div></div>
+      <nav class="adjacent-posts" aria-label="Similar posts">
+        {newer ? <a href={`/posts/${newer.id}/`}><span>← Previous article</span><strong>{newer.title}</strong></a> : <div></div>}
+        {older && <a href={`/posts/${older.id}/`}><span>Next article →</span><strong>{older.title}</strong></a>}
       </nav>
     </article>
     <aside class="article-sidebar">
       <PersonalCard posts={posts} />
-      <nav class="card panel toc" aria-label="文章目录"><h2 class="panel-title"><span class="icon-[lucide--list]" aria-hidden="true"></span>文章目录</h2><ol>{headings.filter(h => h.depth <= 3).map((h, i) => <li class:list={{ nested: h.depth === 3 }}><a href={`#${h.slug}`} data-heading={h.slug}><span>{String(i + 1).padStart(2, "0")}</span>{h.text}</a></li>)}</ol></nav>
+      <nav class="card panel toc" aria-label="Table of contents"><h2 class="panel-title"><span class="icon-[lucide--list]" aria-hidden="true"></span>Table of contents</h2><ol>{headings.filter(h => h.depth <= 3).map((h, i) => <li class:list={{ nested: h.depth === 3 }}><a href={`#${h.slug}`} data-heading={h.slug}><span>{String(i + 1).padStart(2, "0")}</span>{h.text}</a></li>)}</ol></nav>
     </aside>
   </div>
   <script>
@@ -70,19 +71,19 @@ const older = posts[index + 1];
       const status = document.querySelector<HTMLElement>("#share-status");
       try {
         await navigator.clipboard.writeText(window.location.href.split("#")[0]);
-        if (status) status.textContent = "链接已复制，分享给同样热爱记录的朋友吧。";
-      } catch { if (status) status.textContent = `请复制地址栏中的链接：${window.location.href.split("#")[0]}`; }
+        if (status) status.textContent = "The link has been copied. Share it with friends who love recording just as much.";
+      } catch { if (status) status.textContent = `Please copy the link from the URL ${window.location.href.split("#")[0]}`; }
     });
     document.querySelectorAll<HTMLPreElement>(".prose pre").forEach(pre => {
       const code = pre.querySelector("code");
       if (!code) return;
       const button = document.createElement("button");
-      button.className = "copy-code"; button.textContent = "复制";
-      button.setAttribute("aria-label", "复制代码"); button.setAttribute("aria-live", "polite");
+      button.className = "copy-code"; button.textContent = "Copy";
+      button.setAttribute("aria-label", "Copy the code"); button.setAttribute("aria-live", "polite");
       button.addEventListener("click", async () => {
-        try { await navigator.clipboard.writeText(code.textContent || ""); button.textContent = "已复制"; }
-        catch { button.textContent = "请选中代码复制"; }
-        setTimeout(() => { button.textContent = "复制"; }, 2500);
+        try { await navigator.clipboard.writeText(code.textContent || ""); button.textContent = "Copied"; }
+        catch { button.textContent = "Please select \"Code copy\""; }
+        setTimeout(() => { button.textContent = "Copy"; }, 2500);
       });
       pre.append(button);
     });

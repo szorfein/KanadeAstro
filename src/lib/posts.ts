@@ -11,7 +11,7 @@ export type PostSummary = {
   featured: boolean;
   minutes: number;
 };
-export const categories = ["前端开发", "开发笔记", "生活随笔"];
+export const categories = ["Frontend Dev", "Dev Note", "No Code"];
 
 export async function getPosts() {
   return (await getCollection("posts", ({ data }) => !data.draft))

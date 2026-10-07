@@ -2,8 +2,8 @@
 title: "从静态到交互，理解 Astro 的岛屿架构"
 description: "页面并不总是需要一整座 JavaScript 城市。让内容保持轻盈，把交互留给真正需要它的地方。"
 date: 2026-09-15
-category: "前端开发"
-tags: ["Astro", "Vue", "性能优化"]
+category: "Frontend Dev"
+tags: ["Astro", "Vue", "Perf"]
 cover: "astro"
 ---
 ## 先把内容交给浏览器

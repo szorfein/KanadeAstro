@@ -2,8 +2,8 @@
 title: "让 Git 记录更好读，从一次小提交开始"
 description: "一次提交只回答一个问题。整理日常开发里几个简单、实用的版本管理习惯。"
 date: 2026-08-28
-category: "开发笔记"
-tags: ["Git", "效率工具", "开发笔记"]
+category: "Dev Note"
+tags: ["Git", "Tools"]
 cover: "git"
 ---
 ## 先看一眼发生了什么

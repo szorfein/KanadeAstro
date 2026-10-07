@@ -2,8 +2,8 @@
 title: "整理桌面，也整理一下思绪"
 description: "一盏灯、一杯茶、一份短短的待办。给工作空间做一点减法，让注意力回到眼前。"
 date: 2026-08-22
-category: "生活随笔"
-tags: ["日常", "效率工具"]
+category: "Dev Note"
+tags: ["Life", "Tools"]
 cover: "notes"
 ---
 > 这是一篇生活分类示例文章，可以替换成你自己的照片与记录。

@@ -2,8 +2,8 @@
 title: "你好，Kanade：给热爱一个安放的地方"
 description: "终于，给自己的文字搭了一个小窝。从一行代码到一个完整的博客，记录这个小站的诞生，也记录新的开始。"
 date: 2026-09-18
-category: "开发笔记"
-tags: ["Astro", "博客", "折腾记录"]
+category: "Dev Note"
+tags: ["Astro", "Blog", "Record of the Mess"]
 cover: "astro"
 featured: true
 ---
