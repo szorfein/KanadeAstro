@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from "../lib/urls";
 import { ref, computed, onMounted, nextTick } from "vue";
 import { personalInfo } from "../config";
 
@@ -140,7 +141,7 @@ function tilt(id: string) { return `${[-1.8, 1.2, -0.8, 1.7, -1.1][hash(id) % 5]
               <span class="paper-tape" aria-hidden="true"></span>
               <span class="note-hello">A message from <span aria-hidden="true">♡</span></span>
               <div class="message-main"><h4>It's great to meet you here.</h4><p>A greeting, a wish,<br />Or the small joys we encountered today.<br /><br />Leave what you want to say here,<br />Add a little color to an ordinary day.</p></div>
-              <footer class="note-footer"><div class="note-author"><img src="/images/sudoria.jpg" alt="" width="24" height="24" /><strong>{{personalInfo.name}}</strong></div><span>Welcome to pass by <span aria-hidden="true">✿</span></span></footer>
+              <footer class="note-footer"><div class="note-author"><img :src="withBase('/images/avatar.svg')" alt="" width="24" height="24" /><strong>{{personalInfo.name}}</strong></div><span>Welcome to pass by <span aria-hidden="true">✿</span></span></footer>
               <span class="paper-fold" aria-hidden="true"></span>
             </article>
             <article v-if="!messages.length" class="sticky-note paper inspiration-note" data-color="mint" style="--tilt: 1.6deg" aria-label="Writing inspiration">

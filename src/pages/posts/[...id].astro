@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../../lib/urls";
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PersonalCard from "../../components/home/PersonalCard.vue";
@@ -20,23 +21,23 @@ const older = posts[index + 1];
   <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
   <div class="shell article-layout">
     <article class="card article-detail">
-      <a href="/posts/" class="text-link"><span class="icon-[lucide--arrow-left]" aria-hidden="true"></span>Return to all articles</a>
+      <a href={withBase("/posts/")} class="text-link"><span class="icon-[lucide--arrow-left]" aria-hidden="true"></span>Return to all articles</a>
       <header class="article-header">
-        <a class="chip" href={`/posts/?category=${encodeURIComponent(post.data.category)}`}>{post.data.category}</a>
+        <a class="chip" href={withBase(`/posts/?category=${encodeURIComponent(post.data.category)}`)}>{post.data.category}</a>
         <h1>{post.data.title}</h1>
-        <div class="article-meta"><img src="/images/sudoria.jpg" alt="" width="25" height="25" /><span>{personalInfo.name}</span><span>·</span><time datetime={summary.date}>{summary.date}</time><span>·</span><span>Agreement {summary.minutes} minutes</span></div>
+        <div class="article-meta"><img src={withBase("/images/avatar.svg")} alt="" width="25" height="25" /><span>{personalInfo.name}</span><span>·</span><time datetime={summary.date}>{summary.date}</time><span>·</span><span>Agreement {summary.minutes} minutes</span></div>
         <p>{post.data.description}</p>
       </header>
       <div class="article-cover"><PostCover kind={post.data.cover} featured={post.data.featured} /></div>
       <details class="mobile-toc"><summary>Table of contents</summary><ol>{headings.filter(h => h.depth <= 3).map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></details>
       <div class="prose" id="article-body"><Content /></div>
       <div class="article-ending"><span>✿</span><p>Thank you for reading this far. I hope these words have been helpful to you.</p></div>
-      <div class="article-tools"><div class="article-tags">{post.data.tags.map(tag => <a class="chip" href={`/posts/?tag=${encodeURIComponent(tag)}`}># {tag}</a>)}</div><button id="share-post" class="btn secondary"><span class="icon-[lucide--link]" aria-hidden="true"></span>Copy the article link</button></div>
+      <div class="article-tools"><div class="article-tags">{post.data.tags.map(tag => <a class="chip" href={withBase(`/posts/?tag=${encodeURIComponent(tag)}`)}># {tag}</a>)}</div><button id="share-post" class="btn secondary"><span class="icon-[lucide--link]" aria-hidden="true"></span>Copy the article link</button></div>
       <p id="share-status" role="status" class="share-status"></p>
-      <div class="author-note"><img src="/images/sudoria.jpg" :alt=`${personalInfo.name}` width="44" height="44" /><div><strong><span>{personalInfo.name}</span></strong><p>Write a bit of code, record a bit of life. Feel free to write something on the <a href="/messages/">messages board</a></p></div></div>
+      <div class="author-note"><img src={withBase("/images/avatar.svg")} :alt=`{personalInfo.name}` width="44" height="44" /><div><strong><span>{personalInfo.name}</span></strong><p>Write a bit of code, record a bit of life. Feel free to write something on the <a href={withBase("/messages/")}>messages board</a></p></div></div>
       <nav class="adjacent-posts" aria-label="Similar posts">
-        {newer ? <a href={`/posts/${newer.id}/`}><span>← Previous article</span><strong>{newer.title}</strong></a> : <div></div>}
-        {older && <a href={`/posts/${older.id}/`}><span>Next article →</span><strong>{older.title}</strong></a>}
+        {newer ? <a href={withBase(`/posts/${newer.id}/`)}><span>← Previous article</span><strong>{newer.title}</strong></a> : <div></div>}
+        {older && <a href={withBase(`/posts/${older.id}/`)}><span>Next article →</span><strong>{older.title}</strong></a>}
       </nav>
     </article>
     <aside class="article-sidebar">

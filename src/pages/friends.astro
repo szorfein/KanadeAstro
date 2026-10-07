@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../lib/urls";
 import BlogLayout from "../layouts/BlogLayout.astro";
 import { friends } from "../data/friends";
 ---
@@ -9,7 +10,7 @@ import { friends } from "../data/friends";
     <div class="section-rule"></div>
     <h3 class="panel-title"><span class="icon-[lucide--link]" aria-hidden="true"></span>About swapping friend links</h3>
     <p class="friend-copy">Enjoy recording and continuously updating. If you want to know me, you can find me on Github to share your site and a brief introduction.</p>
-    <div class="site-intro"><span>Site name</span><strong>Kanade</strong><span>Site description</span><strong>Record your passion and daily life on your personal blog.</strong><span>Site avatar</span><a href="/images/sudoria.jpg">View avatars ↗</a></div>
+    <div class="site-intro"><span>Site name</span><strong>Kanade</strong><span>Site description</span><strong>Record your passion and daily life on your personal blog.</strong><span>Site avatar</span><a href={withBase("/images/avatar.svg")}>View avatars ↗</a></div>
     <a class="btn secondary" href="https://github.com/sudoriaa" target="_blank" rel="noopener noreferrer"><span class="icon-[jam--github]" aria-hidden="true"></span>Find me on GitHub.</a>
   </section>
 </BlogLayout>

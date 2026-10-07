@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from "../../lib/urls";
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import type { PostSummary } from "../../lib/posts";
 const props = defineProps<{ posts: PostSummary[] }>();
@@ -42,7 +43,7 @@ onUnmounted(() => {
       <div class="search-field"><span class="icon-[lucide--search]"></span><input ref="input" v-model="query" type="search" placeholder="Search articles, categories or tags..." aria-label="Search keywords" /><kbd>ESC</kbd></div>
       <p class="search-meta" aria-live="polite">{{ query.trim() ? `Found ${results.length} article` : "Recent writing" }}</p>
       <div class="search-results">
-        <a v-for="post in results" :key="post.id" :href="`/posts/${post.id}/`" class="search-result"><span class="result-icon icon-[lucide--file-text]"></span><div><strong>{{ post.title }}</strong><p>{{ post.category }} · {{ post.date }}</p></div><span class="icon-[lucide--arrow-up-right]"></span></a>
+        <a v-for="post in results" :key="post.id" :href="withBase(`/posts/${post.id}/`)" class="search-result"><span class="result-icon icon-[lucide--file-text]"></span><div><strong>{{ post.title }}</strong><p>{{ post.category }} · {{ post.date }}</p></div><span class="icon-[lucide--arrow-up-right]"></span></a>
         <div v-if="!results.length" class="empty-state"><span class="icon-[lucide--search-x]"></span><h3>I haven't found anything with these keywords</h3><p>Try "Astro", "CSS" or "Life"</p></div>
       </div>
       <div class="search-footer">Connect every inspiration with words <span>Ctrl / ⌘ K Open · ESC Close</span></div>

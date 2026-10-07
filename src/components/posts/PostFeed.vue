@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from "../../lib/urls";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import type { PostSummary } from "../../lib/posts";
 import PostCover from "./PostCover.vue";
@@ -57,12 +58,12 @@ onUnmounted(() => window.removeEventListener("popstate", readUrl));
     <div v-if="tag || month || (category && !categoryNames.includes(category))" class="filter-summary"><span>Currently browsing: {{ tag || month || category }}</span><button @click="reset">Clear ×</button></div>
     <div class="post-list" aria-live="polite">
       <article v-for="post in displayed" :key="post.id" class="post-card card" :data-category="post.category">
-        <a :href="`/posts/${post.id}/`" class="cover-link" :aria-label="`Read ${post.title}`" tabindex="-1"><PostCover :kind="post.cover" :featured="post.featured" /></a>
+        <a :href="withBase(`/posts/${post.id}/`)" class="cover-link" :aria-label="`Read ${post.title}`" tabindex="-1"><PostCover :kind="post.cover" :featured="post.featured" /></a>
         <div class="post-info">
-          <div class="post-kicker"><span v-if="post.featured" class="pin"><span class="icon-[lucide--pin]"></span>Pinned</span><a :href="`/posts/?category=${encodeURIComponent(post.category)}`">{{ post.category }}</a><span class="meta-divider">/</span><time :datetime="post.date">{{ post.date.replaceAll("-", ".") }}</time></div>
-          <h3><a :href="`/posts/${post.id}/`">{{ post.title }}</a></h3>
+          <div class="post-kicker"><span v-if="post.featured" class="pin"><span class="icon-[lucide--pin]"></span>Pinned</span><a :href="withBase(`/posts/?category=${encodeURIComponent(post.category)}`)">{{ post.category }}</a><span class="meta-divider">/</span><time :datetime="post.date">{{ post.date.replaceAll("-", ".") }}</time></div>
+          <h3><a :href="withBase(`/posts/${post.id}/`)">{{ post.title }}</a></h3>
           <p class="post-description">{{ post.description }}</p>
-          <div class="post-bottom"><div class="post-tags"><a v-for="item in post.tags.slice(0, 2)" :key="item" :href="`/posts/?tag=${encodeURIComponent(item)}`"># {{ item }}</a></div><a class="read-post" :href="`/posts/${post.id}/`" :aria-label="`Read the full article ${post.title}`">{{ post.minutes }} minutes<span class="icon-[lucide--arrow-up-right]"></span></a></div>
+          <div class="post-bottom"><div class="post-tags"><a v-for="item in post.tags.slice(0, 2)" :key="item" :href="withBase(`/posts/?tag=${encodeURIComponent(item)}`)"># {{ item }}</a></div><a class="read-post" :href="withBase(`/posts/${post.id}/`)" :aria-label="`Read the full article ${post.title}`">{{ post.minutes }} minutes<span class="icon-[lucide--arrow-up-right]"></span></a></div>
         </div>
       </article>
       <div v-if="!displayed.length" class="empty-state card"><span class="icon-[lucide--notebook]"></span><h3>On this page, new stories await</h3><p>If you don't find a matching article, try using a different keyword.</p><button class="btn secondary" @click="reset">View all posts</button></div>
