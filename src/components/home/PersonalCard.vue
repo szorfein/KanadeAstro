@@ -6,7 +6,7 @@ const props = defineProps<{ posts: PostSummary[] }>();
 <template>
   <section class="card profile-card">
     <div class="profile-top"><span class="profile-flower">✿</span><span class="eyebrow">NICE TO MEET YOU</span><span class="profile-spark">✧</span></div>
-    <a href="/about/" class="avatar-link"><img :src="personalInfo.avatar" :alt="personalInfo.name" width="80" height="80" /><span class="online-dot" title="持续记录中"></span></a>
+    <a href="/about/" class="avatar-link"><img :src="personalInfo.avatar" :alt="personalInfo.name" width="80" height="80" /><span class="online-dot" title="Continously recording"></span></a>
     <h2>{{ personalInfo.name }}</h2><p class="profile-role">{{ personalInfo.role }}</p>
     <p class="profile-bio">{{ personalInfo.bio }}</p>
     <div class="profile-stats"><a href="/posts/"><strong>{{ posts.length }}</strong><span>Posts</span></a><a href="/posts/"><strong>{{ new Set(posts.map(p => p.category)).size }}</strong><span>Categories</span></a><a href="/posts/#tags"><strong>{{ getTags(props.posts).length }}</strong><span>Tags</span></a></div>

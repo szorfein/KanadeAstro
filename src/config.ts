@@ -31,7 +31,7 @@ export const personalInfo = {
   bio: "Between code and life, seek a little romance.",
   github: "https://github.com/sudoriaa",
   socialLinks: [
-    { name: "GitHub", icon: "icon-[jam--github]", url: "https://github.com/szorfein" },
+    { name: "GitHub", icon: "icon-[jam--github]", url: "https://github.com/sudoriaa" },
     { name: "RSS", icon: "icon-[lucide--rss]", url: "/rss.xml" },
     { name: "Messages", icon: "icon-[lucide--mail]", url: "/messages/" },
   ],
